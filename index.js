@@ -73,6 +73,7 @@ app.post("/recipe", async (req, res) => {
   const { ingredientList } = req.body;
   const messages = initialMessage(ingredientList);
   try {
+    //AI에게 요청을 보냄
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
       messages,
@@ -82,6 +83,7 @@ app.post("/recipe", async (req, res) => {
     });
     const data = [...messages, response.choices[0].message];
     console.log("data", data);
+    //프론트렌드에게 응답
     res.json({ data });
   } catch (error) {
     console.log(error);
