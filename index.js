@@ -17,11 +17,28 @@ dotanv.config({
   path: __dirname + "/.env",
 });
 
+//프론트에서 받은 json 형태의 데이터를 객체로 피싱(변환)하여 사용하도록 설정
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 //테스트용 API
 app.get("/test", async (req, res) => {
   try {
     res.json({
-      data: "Chatzrit",
+      data: "Chutzrit",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post("/massage", async (req, res) => {
+  const massage = req.body.massage;
+  console.log("🚀 ~ app.post ~ massage:", massage);
+  try {
+    res.json({
+      id: Date.now(),
+      massage: massage,
     });
   } catch (error) {
     console.log(error);
