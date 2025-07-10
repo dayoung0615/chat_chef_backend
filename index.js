@@ -4,6 +4,8 @@
 import express from "express";
 import cors from "cors";
 import * as dotanv from "dotenv";
+import path from "path";
+
 //   "type": "module", < 최신방식(package.json)
 
 const app = express();
@@ -14,9 +16,18 @@ const __dirname = path.resolve();
 dotanv.config({
   path: __dirname + "/.env",
 });
-const port = process.env.PORT;
 
-app.listen("8080", () => {
-  //port번호 화인.
-  console.log("port:", port);
+//테스트용 API
+app.get("/test", async (req, res) => {
+  try {
+    res.json({
+      data: "Chatzrit",
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
+
+//최하단
+const port = process.env.PORT || 8080;
+app.listen(port);
