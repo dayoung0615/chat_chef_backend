@@ -5,7 +5,7 @@ import express from "express";
 import cors from "cors";
 import * as dotanv from "dotenv";
 import path from "path";
-import { OpenAI } from "openai/client.js";
+import OpenAI from "openai";
 
 //   "type": "module", < 최신방식(package.json)
 
@@ -25,10 +25,12 @@ const openai = new OpenAI({
 console.log(process.env.OPENAI_API_KEY);
 
 //프론트에서 받은 json 형태의 데이터를 객체로 피싱(변환)하여 사용하도록 설정
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-//테스트용 API
+//테스트용 API get (검색)
 app.get("/test", async (req, res) => {
   try {
     res.json({
@@ -39,6 +41,7 @@ app.get("/test", async (req, res) => {
   }
 });
 
+// post (입력)
 app.post("/massage", async (req, res) => {
   const massage = req.body.massage;
   console.log("🚀 ~ app.post ~ massage:", massage);
@@ -51,6 +54,8 @@ app.post("/massage", async (req, res) => {
     console.log(error);
   }
 });
+
+//put(수정)
 
 // 챗봇 api설정
 const initialMessage = (ingredientList) => {
